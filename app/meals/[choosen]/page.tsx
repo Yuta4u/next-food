@@ -2,9 +2,15 @@ import Image from "next/image"
 import classes from "./page.module.css"
 import { getMeal } from "@/lib/meals"
 import { TMeal } from "@/components/meals/meal-type"
+import { notFound } from "next/navigation"
 
 export default function MealDetailPage({ params }: any) {
   const meal: TMeal = getMeal(params.choosen) as TMeal
+
+  if (!meal) {
+    notFound()
+  }
+
   meal.instructions = meal.instructions.replace(/\n/g, "<br/>")
   return (
     <>

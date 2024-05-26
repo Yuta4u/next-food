@@ -5,6 +5,8 @@ export type TMeal = {
   image: string
   summary: string
   creator: string
+  creator_email: string
+  instructions: string
 }
 
 export type TMeals = {
