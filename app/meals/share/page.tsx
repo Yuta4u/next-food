@@ -8,11 +8,11 @@ import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 const schema = z.object({
-  name: z.string(),
-  email: z.string().email(),
-  title: z.string().min(8),
-  summary: z.string(),
-  instructions: z.string(),
+  name: z.string().nonempty("Name is Required"),
+  email: z.string().email().nonempty("Email is Required"),
+  title: z.string().min(8).nonempty("Title is Required"),
+  summary: z.string().nonempty("Summary is Required"),
+  instructions: z.string().nonempty("Instructions is Required"),
   image: z.any(),
 })
 
