@@ -96,3 +96,13 @@
   color: #979797;
   cursor: not-allowed;
 }
+
+.error_msg {
+  font-size: 0.8rem;
+  color: #d74a49;
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+}

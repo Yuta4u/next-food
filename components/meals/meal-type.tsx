@@ -2,7 +2,7 @@ export type TMeal = {
   id: number
   title: string
   slug: string
-  image: string
+  image?: any
   summary: string
   creator: string
   creator_email: string

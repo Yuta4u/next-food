@@ -1,17 +1,24 @@
 "use client"
 
-import { useRef, RefObject, useState } from "react"
+import { useRef, RefObject, useState, ChangeEvent } from "react"
 import classes from "./image-picker.module.css"
 import Image from "next/image"
 
-type ImagePickerProps = {
+interface ImagePickerProps {
   label: string
   name: string
+  register: any
+  setValue: any
 }
 
-export default function ImagePicker({ label, name }: any) {
+export default function ImagePicker({
+  label,
+  name,
+  register,
+  setValue,
+}: ImagePickerProps) {
   const imageRef: RefObject<HTMLInputElement> = useRef(null)
-  const [selectedImage, setSelectedImage]: any = useState(null)
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
   const handleClick = () => {
     if (imageRef.current) {
@@ -19,21 +26,19 @@ export default function ImagePicker({ label, name }: any) {
     }
   }
 
-  const handleOnChange = (event: any) => {
-    const file = event.target.files[0]
-
-    if (!file) {
+  const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      const fileReader = new FileReader()
+      fileReader.onload = () => {
+        setSelectedImage(fileReader.result as string)
+        setValue(name, file) // Set the file in the form state
+      }
+      fileReader.readAsDataURL(file)
+    } else {
       setSelectedImage(null)
+      setValue(name, null)
     }
-
-    const fileReader = new FileReader()
-
-    fileReader.onload = () => {
-      setSelectedImage(fileReader.result)
-      return
-    }
-
-    fileReader.readAsDataURL(file)
   }
 
   return (
@@ -59,7 +64,8 @@ export default function ImagePicker({ label, name }: any) {
           name={name}
           ref={imageRef}
           onChange={handleOnChange}
-          required
+          // {...register("image")} // Register the input
+          style={{ display: "none" }} // Hide the input
         />
         <button className={classes.button} type="button" onClick={handleClick}>
           Pick an Image
