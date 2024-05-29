@@ -4,6 +4,14 @@ import { getMeal } from "@/lib/meals"
 import { TMeal } from "@/components/meals/meal-type"
 import { notFound } from "next/navigation"
 
+export async function generateMetadata({ params }: any) {
+  const meal: any = getMeal(params.choosen)
+  return {
+    title: meal?.title,
+    description: "This is selected food",
+  }
+}
+
 export default function MealDetailPage({ params }: any) {
   const meal: TMeal = getMeal(params.choosen) as TMeal
 
